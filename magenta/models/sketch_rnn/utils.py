@@ -22,6 +22,7 @@ import numpy as np
 
 def get_bounds(data, factor=10):
   """Return bounds of data."""
+  #factor controls scale
   min_x = 0
   max_x = 0
   min_y = 0
@@ -222,6 +223,7 @@ class DataLoader(object):
 
   def preprocess(self, strokes):
     """Remove entries from strokes having > max_seq_length points."""
+    print('len strokes original:',len(strokes))
     raw_data = []
     seq_len = []
     count_data = 0
@@ -242,11 +244,12 @@ class DataLoader(object):
     self.strokes = []
     for i in range(len(seq_len)):
       self.strokes.append(raw_data[idx[i]])
-    print("total images <= max_seq_len is %d" % count_data)
+    print("total images <== max_seq_len is %d" % count_data)
     self.num_batches = int(count_data / self.batch_size)
 
   def random_sample(self):
     """Return a random sample, in stroke-3 format as used by draw_strokes."""
+    # print(len(self.strokes))
     sample = np.copy(random.choice(self.strokes))
     return sample
 

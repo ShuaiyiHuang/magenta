@@ -40,7 +40,8 @@ FLAGS = tf.app.flags.FLAGS
 
 tf.app.flags.DEFINE_string(
     'data_dir',
-    'https://github.com/hardmaru/sketch-rnn-datasets/raw/master/aaron_sheep',
+    # 'https://github.com/hardmaru/sketch-rnn-datasets/raw/master/aaron_sheep',
+    '/tmp/sketch_rnn/datasets',
     'The directory in which to find the dataset specified in model hparams. '
     'If data_dir starts with "http://" or "https://", the file will be fetched '
     'remotely.')
@@ -48,7 +49,7 @@ tf.app.flags.DEFINE_string(
     'log_root', '/tmp/sketch_rnn/models/default',
     'Directory to store model checkpoints, tensorboard.')
 tf.app.flags.DEFINE_boolean(
-    'resume_training', False,
+    'resume_training', True,
     'Set to true to load previous checkpoint')
 tf.app.flags.DEFINE_string(
     'hparams', '',
@@ -189,7 +190,7 @@ def load_dataset(data_dir, model_params, inference_mode=False):
 
   normalizing_scale_factor = train_set.calculate_normalizing_scale_factor()
   train_set.normalize(normalizing_scale_factor)
-
+  print('Length original',len(train_strokes),len(valid_strokes),len(test_strokes))
   valid_set = utils.DataLoader(
       valid_strokes,
       eval_model_params.batch_size,
